@@ -22,13 +22,19 @@ export const createStripeCheckout = async () => {
 
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
+
+    metadata: {
+      clerk_user_id: userId,
+    },
+
     subscription_data: {
       metadata: {
         clerk_user_id: userId,
       },
     },
+
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}`,
     line_items: [
       {
         price: process.env.STRIPE_PREMIUM_PLAN_PRICE_ID!,
@@ -37,5 +43,7 @@ export const createStripeCheckout = async () => {
     ],
   });
 
-  return { checkoutUrl: session.url };
+  return {
+    checkoutUrl: session.url,
+  };
 };
