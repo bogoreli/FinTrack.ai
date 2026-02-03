@@ -14,10 +14,10 @@ const Subscription = async () => {
   return (
     <div>
       <Navbar />
-      <div className="space-y-6 p-6">
+      <div className="flex flex-col items-center space-y-6 p-6">
         <h1 className="text-2xl font-bold">Assinaturas</h1>
 
-        <div className="flex gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           <Card className="w-[450px]">
             <CardHeader className="border-b border-solid py-8">
               <h2 className="text-center text-2xl font-semibold">
