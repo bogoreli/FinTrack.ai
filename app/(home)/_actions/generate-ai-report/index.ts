@@ -54,6 +54,7 @@ export const generateAiReport = async ({
         `${transaction.date.toLocaleDateString("pt-BR")}-R$${transaction.amount}-${transaction.type}-${transaction.category}`,
     )
     .join(";")}`;
+
   const completion = await openAi.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [
@@ -68,6 +69,6 @@ export const generateAiReport = async ({
       },
     ],
   });
-  // pegar o relatório gerado pelo ChatGPT e retornar para o usuário
+
   return completion.choices[0].message.content;
 };
