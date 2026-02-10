@@ -1,60 +1,51 @@
-import { Button } from "@/app/_components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { formatCurrency } from "@/app/_utils/currency";
-import { Transaction, TransactionType } from "@prisma/client";
+import { TransactionType } from "@prisma/client";
 import Link from "next/link";
 
 interface LastTransactionsProps {
-  lastTransactions: Transaction[];
+  transactions: {
+    id: string;
+    name: string;
+    amount: number;
+    type: TransactionType;
+    category: string;
+    date: Date;
+  }[];
 }
 
-const LastTransactions = ({ lastTransactions }: LastTransactionsProps) => {
-  const getPriceColor = (transaction: Transaction) => {
-    if (transaction.type === TransactionType.EXPENSE) {
-      return "text-red-500";
-    }
-    if (transaction.type === TransactionType.DEPOSIT) {
-      return "text-primary";
-    }
-    return "text-white";
-  };
-
-  const getAmountPrefix = (transaction: Transaction) => {
-    if (transaction.type === TransactionType.DEPOSIT) {
-      return "+";
-    }
-    return "-";
-  };
+const LastTransactions = ({ transactions }: LastTransactionsProps) => {
   return (
-    <ScrollArea className="rounded-md border">
-      <CardHeader className="flex-row items-center justify-between">
-        <CardTitle className="font-bold">Ultimas transações</CardTitle>
-        <Button variant={"outline"} className="rounded-full font-bold" asChild>
-          <Link href="/transactions">Ver mais</Link>
-        </Button>
+    <ScrollArea className="h-full rounded-md border">
+      <CardHeader>
+        <CardTitle className="font-bold">Últimas Transações</CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-6">
-        {lastTransactions.map((transaction) => (
-          // eslint-disable-next-line react/jsx-key
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div>
-                <p className="text-sm font-bold">{transaction.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {new Date(transaction.date).toLocaleDateString("pt-BR", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </p>
-              </div>
+        {transactions.map((transaction) => (
+          <Link
+            key={transaction.id}
+            href="/transactions"
+            className="flex items-center justify-between"
+          >
+            <div>
+              <p className="text-sm font-bold">{transaction.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {transaction.date.toLocaleDateString("pt-BR")}
+              </p>
             </div>
-            <p className={`text-sm font-bold ${getPriceColor(transaction)}`}>
-              {getAmountPrefix(transaction)}
+
+            <p
+              className={`text-sm font-bold ${
+                transaction.type === TransactionType.EXPENSE
+                  ? "text-red-500"
+                  : "text-green-500"
+              }`}
+            >
               {formatCurrency(Number(transaction.amount))}
             </p>
-          </div>
+          </Link>
         ))}
       </CardContent>
     </ScrollArea>
