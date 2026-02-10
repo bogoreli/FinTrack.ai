@@ -1,14 +1,11 @@
-"use client";
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
-  TransactionType,
-  TransactionCategory,
   PaymentMethod,
-} from "@/app/_constants/transaction-enums";
+  TransactionCategory,
+  TransactionType,
+} from "@prisma/client";
 
 import { Button } from "./ui/button";
 import {
@@ -113,10 +110,12 @@ const UpsertTransactionDialog = ({
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open);
-        if (!open) form.reset();
+        if (!open) {
+          form.reset();
+        }
       }}
     >
-      <DialogTrigger asChild />
+      <DialogTrigger asChild></DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
@@ -130,6 +129,7 @@ const UpsertTransactionDialog = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* Nome */}
             <FormField
               control={form.control}
               name="name"
@@ -144,6 +144,7 @@ const UpsertTransactionDialog = ({
               )}
             />
 
+            {/* Valor */}
             <FormField
               control={form.control}
               name="amount"
@@ -154,9 +155,11 @@ const UpsertTransactionDialog = ({
                     <MoneyInput
                       value={field.value}
                       placeholder="Digite o valor"
-                      onValueChange={({ floatValue }) =>
-                        field.onChange(floatValue ?? 0)
-                      }
+                      onValueChange={({
+                        floatValue,
+                      }: {
+                        floatValue?: number | null | undefined;
+                      }) => field.onChange(floatValue ?? 0)}
                       onBlur={field.onBlur}
                       disabled={field.disabled}
                     />
@@ -166,6 +169,7 @@ const UpsertTransactionDialog = ({
               )}
             />
 
+            {/* Tipo */}
             <FormField
               control={form.control}
               name="type"
@@ -178,6 +182,7 @@ const UpsertTransactionDialog = ({
                         <SelectValue placeholder="Selecione o tipo" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
                       {TRANSACTION_TYPE_OPTIONS.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
@@ -191,6 +196,7 @@ const UpsertTransactionDialog = ({
               )}
             />
 
+            {/* Metódo */}
             <FormField
               control={form.control}
               name="paymentMethod"
@@ -200,9 +206,10 @@ const UpsertTransactionDialog = ({
                   <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione um método" />
+                        <SelectValue placeholder="Selecione um método de pagamento" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
                       {PAYMENT_METHOD_OPTIONS.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
@@ -216,6 +223,7 @@ const UpsertTransactionDialog = ({
               )}
             />
 
+            {/* Categoria */}
             <FormField
               control={form.control}
               name="category"
@@ -228,6 +236,7 @@ const UpsertTransactionDialog = ({
                         <SelectValue placeholder="Selecione uma categoria" />
                       </SelectTrigger>
                     </FormControl>
+
                     <SelectContent>
                       {TRANSACTION_CATEGORY_OPTIONS.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
