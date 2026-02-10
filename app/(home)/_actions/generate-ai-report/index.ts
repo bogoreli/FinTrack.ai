@@ -5,7 +5,6 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { startOfMonth, endOfMonth } from "date-fns";
 import OpenAI from "openai";
 import { GenerateAiReportInputSchema, generateAiReportSchema } from "./schema";
-import { Transaction } from "@prisma/client";
 
 export const generateAiReport = async ({
   month,
@@ -31,13 +30,13 @@ export const generateAiReport = async ({
   const transactions = await db.transaction.findMany({
     where: {
       userId,
-      createdAt: {
+      date: {
         gte: start,
         lte: end,
       },
     },
     orderBy: {
-      createdAt: "asc",
+      date: "asc",
     },
   });
 
@@ -52,8 +51,8 @@ export const generateAiReport = async ({
   const content = `Gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{TIPO}-{VALOR}-{CATEGORIA}. São elas:
 ${transactions
   .map(
-    (transaction: Transaction) =>
-      `${transaction.createdAt.toLocaleDateString(
+    (transaction: (typeof transactions)[number]) =>
+      `${transaction.date.toLocaleDateString(
         "pt-BR",
       )}-R$${transaction.amount}-${transaction.type}-${transaction.category}`,
   )
