@@ -69,7 +69,8 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Você ainda não tem transações cadastradas. Comece a adicionar
+                suas transações para acompanhar suas finanças!
               </TableCell>
             </TableRow>
           )}
