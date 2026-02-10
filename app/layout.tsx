@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Toaster } from "sonner";
+import { ptBR } from "@clerk/localizations";
 
 const mulish = Mulish({
   subsets: ["latin-ext"],
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${mulish.className} dark antialiased`}>
-        <ClerkProvider appearance={{ baseTheme: dark }}>
+        <ClerkProvider appearance={{ baseTheme: dark }} localization={ptBR}>
           <div className="flex h-full flex-col overflow-hidden">{children}</div>
         </ClerkProvider>
         <Toaster />
