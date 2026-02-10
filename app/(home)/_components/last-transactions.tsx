@@ -1,18 +1,20 @@
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { formatCurrency } from "@/app/_utils/currency";
-import { TransactionType } from "@prisma/client";
 import Link from "next/link";
 
+type TransactionType = "DEPOSIT" | "INVESTMENT" | "EXPENSE";
+
+interface LastTransaction {
+  id: string;
+  name: string;
+  amount: number;
+  type: TransactionType;
+  date: Date;
+}
+
 interface LastTransactionsProps {
-  transactions: {
-    id: string;
-    name: string;
-    amount: number;
-    type: TransactionType;
-    category: string;
-    date: Date;
-  }[];
+  transactions: LastTransaction[];
 }
 
 const LastTransactions = ({ transactions }: LastTransactionsProps) => {
@@ -38,7 +40,7 @@ const LastTransactions = ({ transactions }: LastTransactionsProps) => {
 
             <p
               className={`text-sm font-bold ${
-                transaction.type === TransactionType.EXPENSE
+                transaction.type === "EXPENSE"
                   ? "text-red-500"
                   : "text-green-500"
               }`}
