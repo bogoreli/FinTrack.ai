@@ -9,12 +9,14 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between border-b border-solid px-8 py-4">
       <div className="flex items-center gap-10">
-        <Image src="/logo.svg" alt="Fintrak AI" width={173} height={39} />
+        <Link href={"/"}>
+          <Image src="/logo.svg" alt="Fintrak AI" width={173} height={39} />
+        </Link>
         <Link
           href={"/"}
           className={
             pathname === "/"
-              ? "fonte-bold text-primary"
+              ? "font-bold text-primary"
               : "text-muted-foreground"
           }
         >
@@ -24,7 +26,7 @@ const Navbar = () => {
           href={"/transactions"}
           className={
             pathname === "/transactions"
-              ? "fonte-bold text-primary"
+              ? "font-bold text-primary"
               : "text-muted-foreground"
           }
         >
@@ -34,7 +36,7 @@ const Navbar = () => {
           href={"/subscription"}
           className={
             pathname === "/subscription"
-              ? "fonte-bold text-primary"
+              ? "font-bold text-primary"
               : "text-muted-foreground"
           }
         >
