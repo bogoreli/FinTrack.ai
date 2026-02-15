@@ -5,7 +5,7 @@ import {
   PaymentMethod,
   TransactionCategory,
   TransactionType,
-} from "@/app/_constants/transaction-enums";
+} from "@prisma/client";
 
 import { Button } from "./ui/button";
 import {
