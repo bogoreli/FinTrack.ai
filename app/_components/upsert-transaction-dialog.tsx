@@ -86,7 +86,7 @@ const UpsertTransactionDialog = ({
     defaultValues: defaultValues ?? {
       name: "",
       amount: 0,
-      type: TransactionType.DEPOSIT,
+      type: TransactionType.EXPENSE,
       category: TransactionCategory.OTHER,
       paymentMethod: PaymentMethod.CASH,
       date: new Date(),
